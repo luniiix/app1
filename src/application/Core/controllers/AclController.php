@@ -5,7 +5,6 @@ class AclController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        
     	$acl = Zend_Registry::get('Zend_Acl');
     	
     	if($acl->isAllowed('guest', 'livre', 'lire')){

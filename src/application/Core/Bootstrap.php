@@ -37,12 +37,16 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
         $acl->addResource('Core::auth::login');
         $acl->addResource('Core::auth::logout');
         $acl->addResource('Core::index::index');
+        $acl->addResource('Core::acl::index');
         
         $acl->addResource('article');
         
         $acl->allow(Core_Model_User::GUEST, 'Core::auth::login');
         $acl->allow(Core_Model_User::AUTHOR, 'Core::auth::logout');
+        $acl->allow(Core_Model_User::ROOT, 'Core::auth::logout');
         $acl->allow(Core_Model_User::AUTHOR, 'Core::index::index');
+        $acl->allow(Core_Model_User::ROOT, 'Core::index::index');
+        $acl->allow(Core_Model_User::ROOT, 'Core::acl::index');
         
         Zend_Registry::set('Zend_Acl', $acl);
         

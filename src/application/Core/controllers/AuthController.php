@@ -40,6 +40,7 @@ class AuthController extends Zend_Controller_Action
                     $user->setUserLogin($userRow->user_login);
                     
                     $auth->getStorage()->write($user);
+      				$this->_redirect();
                 }
             }
         } 
