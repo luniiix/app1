@@ -24,12 +24,12 @@ class Core_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		$action = $request->getActionName();
 		$acl = Zend_Registry::get('Zend_Acl');
 		
-		//RÃ©cupÃ©ration de l'authentification de l'utilisateur
+		//Récupération de l'authentification de l'utilisateur
 		$auth = Zend_Auth::getInstance();
 		if ($auth->hasIdentity()) {
 			$userAuth = $auth->getIdentity();
 		} else {
-			//Initialisation avec un Role User correspondant Ã  GUEST (Non connectÃ©)
+			//Initialisation avec un Role User correspondant à GUEST (Non connecté)
 			$userAuth = new Core_Model_User();
 			$userAuth->setRoleId(Core_Model_User::GUEST);
 		}
