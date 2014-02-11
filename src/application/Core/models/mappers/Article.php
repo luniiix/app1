@@ -21,7 +21,8 @@ class Core_Model_Mapper_Article
             $authorRow = $row->findParentRow('Core_Model_DbTable_Author');
             $author = new Core_Model_Author();
             $author->setAuthorId($authorRow->author_id)
-                   ->setAuthorName($authorRow->author_name);
+                   ->setAuthorName($authorRow->author_name)
+                   ->setUserId($authorRow->user_id);
             
             $article->setAuthor($author);
             $articles[] = $article;

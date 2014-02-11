@@ -4,6 +4,24 @@ class Core_Model_Author
 {
     private $authorId;
     private $authorName;
+    private $userId;
+    
+	/**
+     * @return the $userId
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+	/**
+     * @param field_type $userId
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+
 	/**
      * @return the $authorId
      */

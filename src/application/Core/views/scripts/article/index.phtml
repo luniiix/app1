@@ -1,0 +1,19 @@
+<?php 
+$this->headTitle('Accueil');
+$this->headMeta()->appendName('description', "Page d'accueil");
+?>
+<br />
+<br /><br />
+<?php if($this->articles):?>
+    <?php foreach( $this->articles as $article) :?>
+    <div class="article">
+        <h2><?= $article->getArticleTitle()?></h2>
+        <h3>Par <?= $article->getAuthor()->getAuthorName()?></h3>
+        <div class="articleContent">
+        <?= $article->getArticleContent()?>
+        </div>
+    </div>
+    <?php endforeach;?>
+<?php else: ?>
+Aucun article !!!
+<?php endif;?>

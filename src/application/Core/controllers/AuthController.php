@@ -41,7 +41,7 @@ class AuthController extends Zend_Controller_Action
                     
                     $auth->getStorage()->write($user);
                 }
-                $this->_redirect('/');
+                $this->_redirect('/accueil.html');
             }
         } 
         
@@ -51,6 +51,6 @@ class AuthController extends Zend_Controller_Action
     public function logoutAction()
     {
         Zend_Auth::getInstance()->clearIdentity();
-        $this->_redirect('/auth/login');
+        $this->_redirect('/login.html');
     }
 }
