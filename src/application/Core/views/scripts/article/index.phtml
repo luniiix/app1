@@ -5,16 +5,7 @@ $this->headMeta()->appendName('description', "Page d'accueil");
 <br />
 <br /><br />
 <?php if($this->articles):?>
-    <?php foreach( $this->articles as $article) :?>
-    <div class="article">
-    	<a href="<?= $this->url(array('action' => 'delete', 'controller' => 'article' , 'article_id' => $artocle->getId()))?>"></a></br>
-        <h2><?= $article->getArticleTitle()?></h2>
-        <h3>Par <?= $article->getAuthor()->getAuthorName()?></h3>
-        <div class="articleContent">
-        <?= $article->getArticleContent()?>
-        </div>
-    </div>
-    <?php endforeach;?>
+    <?= $this->partialLoop('article/partials/item.phtml', $this->articles);?>
 <?php else: ?>
 Aucun article !!!
 <?php endif;?>

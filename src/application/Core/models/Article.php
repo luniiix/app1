@@ -82,5 +82,8 @@ class Core_Model_Article implements Zend_Acl_Resource_Interface
         return $this;
     }
 
-    
+    public function toArray(){
+        $array = array('article' => $this);
+        return $array;
+    }
 }

@@ -1,0 +1,17 @@
+<?php $article = $this->article;?>
+<?  if($this->partialCounter % 2){
+        $class = "even";
+    } else {
+        $class = "odd";
+    }?>
+<div class="article <?= $class?>">
+    <a href="<?= $this->url(array('id' => $article->getArticleId()), 'articleDelete', TRUE, FALSE);?>" >Supprimer l'article</a><br />
+    <? if($this->action != 'update'):?>
+        <a href="<?= $this->url(array('id' => $article->getArticleId()), 'articleUpdate', TRUE, FALSE);?>" >Modification de l'article</a><br />
+    <?php endif;?>
+    <h2><?= $article->getArticleTitle()?></h2>
+    <h3>Par <?= $article->getAuthor()->getAuthorName()?></h3>
+    <div class="articleContent">
+    <?= $article->getArticleContent()?>
+    </div>
+</div>

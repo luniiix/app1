@@ -57,7 +57,11 @@
       ->breadcrumbs()
       ->setMinDepth(0)
       ?></p>
-      
+      <?php $session = new Zend_Session_Namespace('message');?>
+      <?php if($session->__get('value')):?>
+        <span><?= $session->__get('value');?></span>
+        <?php $session->unsetAll();?>
+      <?php endif;?>
       <?= $this->layout()->content ?>
     </div> <!-- /container -->
     

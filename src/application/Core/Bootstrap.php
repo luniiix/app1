@@ -22,9 +22,11 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
     {
         $resourceLoader = new Zend_Loader_Autoloader_Resource(array(
             'basePath'  => SRC_PATH,
-            'namespace' => '',
+            'namespace' => 'Core',
         ));
-        $resourceLoader->addResourceType('asserter', 'application/Core/asserter', 'Core_Asserter');
+        $resourceLoader->addResourceType('asserter', 'application/Core/asserter', 'Asserter');
+        $resourceLoader->addResourceType('decorator', 'application/Core/forms/decorators', 'Decorator');
+        $resourceLoader->addResourceType('navigation', 'application/Core/views/navigations', 'Navigation');
     }
     
     protected function _initAcl(){
@@ -42,6 +44,10 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
         $acl->addResource('Core::auth::logout');
         $acl->addResource('Core::index::index');
         $acl->addResource('Core::article::index');
+        $acl->addResource('Core::article::create');
+        $acl->addResource('Core::article::read');
+        $acl->addResource('Core::article::update');
+        $acl->addResource('Core::article::delete');
         
         $acl->addResource('article');
         
@@ -49,9 +55,14 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
         $acl->allow(Core_Model_User::GUEST, 'Core::auth::login');
         $acl->allow(Core_Model_User::AUTHOR, 'Core::index::index');
         $acl->allow(Core_Model_User::AUTHOR, 'Core::article::index');
+        $acl->allow(Core_Model_User::AUTHOR, 'Core::article::create');
+        $acl->allow(Core_Model_User::AUTHOR, 'Core::article::read');
+        $acl->allow(Core_Model_User::AUTHOR, 'Core::article::update');
+        $acl->allow(Core_Model_User::AUTHOR, 'Core::article::delete');
         $acl->allow(Core_Model_User::AUTHOR, 'Core::auth::logout');
         
         $acl->allow(Core_Model_User::AUTHOR, 'article', 'read', new Core_Asserter_Owner());
+        $acl->allow(Core_Model_User::AUTHOR, 'article', 'delete', new Core_Asserter_Owner());
         
         Zend_Registry::set('Zend_Acl', $acl);
         
