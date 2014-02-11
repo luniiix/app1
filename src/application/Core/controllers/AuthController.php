@@ -40,8 +40,8 @@ class AuthController extends Zend_Controller_Action
                     $user->setUserLogin($userRow->user_login);
                     
                     $auth->getStorage()->write($user);
-      				$this->_redirect();
                 }
+                $this->_redirect('/');
             }
         } 
         
@@ -51,6 +51,6 @@ class AuthController extends Zend_Controller_Action
     public function logoutAction()
     {
         Zend_Auth::getInstance()->clearIdentity();
-        $this->_redirect('/');
+        $this->_redirect('/auth/login');
     }
 }

@@ -14,8 +14,17 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
     
     protected function _initPlugins()
     {
-        $fc = Zend_Controller_Front::getInstance();
-        $fc->registerPlugin(new Core_Plugin_Auth());
+//         $fc = Zend_Controller_Front::getInstance();
+//         $fc->registerPlugin(new Core_Plugin_Auth());
+    }
+    
+    protected function _initAutoloading ()
+    {
+        $resourceLoader = new Zend_Loader_Autoloader_Resource(array(
+            'basePath'  => SRC_PATH,
+            'namespace' => '',
+        ));
+        $resourceLoader->addResourceType('asserter', 'application/Core/asserter', 'Core_Asserter');
     }
     
     protected function _initAcl(){
@@ -25,28 +34,24 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
         $acl = new Zend_Acl();
         $acl->addRole(new Zend_Acl_Role(Core_Model_User::GUEST));
         
-        $parentsRole = array(Core_Model_User::MODERATOR, 
-                             Core_Model_User::ADMIN);
-        
-        $acl->addRole(new Zend_Acl_Role(Core_Model_User::ROOT));
-        $acl->addRole(new Zend_Acl_Role(Core_Model_User::ADMIN));
-        $acl->addRole(new Zend_Acl_Role(Core_Model_User::MODERATOR));
-        $acl->addRole(new Zend_Acl_Role(Core_Model_User::AUTHOR), $parentsRole);
-        
+        $acl->addRole(new Zend_Acl_Role(Core_Model_User::AUTHOR));
+        $acl->addRole(new Zend_Acl_Role(Core_Model_User::MODERATOR), array(Core_Model_User::AUTHOR));
+        $acl->addRole(new Zend_Acl_Role(Core_Model_User::ROOT), array(Core_Model_User::MODERATOR));
         
         $acl->addResource('Core::auth::login');
         $acl->addResource('Core::auth::logout');
         $acl->addResource('Core::index::index');
-        $acl->addResource('Core::acl::index');
+        $acl->addResource('Core::article::index');
         
         $acl->addResource('article');
         
+        $acl->allow(Core_Model_User::GUEST, 'Core::index::index');
         $acl->allow(Core_Model_User::GUEST, 'Core::auth::login');
-        $acl->allow(Core_Model_User::AUTHOR, 'Core::auth::logout');
-        $acl->allow(Core_Model_User::ROOT, 'Core::auth::logout');
         $acl->allow(Core_Model_User::AUTHOR, 'Core::index::index');
-        $acl->allow(Core_Model_User::ROOT, 'Core::index::index');
-        $acl->allow(Core_Model_User::ROOT, 'Core::acl::index');
+        $acl->allow(Core_Model_User::AUTHOR, 'Core::article::index');
+        $acl->allow(Core_Model_User::AUTHOR, 'Core::auth::logout');
+        
+        $acl->allow(Core_Model_User::AUTHOR, 'article', 'read', new Core_Asserter_Owner());
         
         Zend_Registry::set('Zend_Acl', $acl);
         

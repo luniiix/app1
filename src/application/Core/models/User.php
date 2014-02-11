@@ -4,9 +4,8 @@ class Core_Model_User implements Zend_Acl_Role_Interface{
     
     const GUEST     = 0;
     const ROOT      = 1;
-    const ADMIN     = 2;
-    const AUTHOR    = 3;
-    const MODERATOR = 4;
+    const AUTHOR    = 2;
+    const MODERATOR = 3;
     
     private $roleId;
     private $userId;

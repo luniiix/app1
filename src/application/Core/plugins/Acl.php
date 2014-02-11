@@ -4,7 +4,7 @@ class Core_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 {
     public function preDispatch (Zend_Controller_Request_Abstract $request)
 	{
-		//RÃ©cupÃ©ration des erreurs si existante
+		//Récupération des erreurs si existante
 		$errors = $request->getParam('error_handler');
 		
 		if (! $errors || ! $errors instanceof ArrayObject) {
@@ -26,6 +26,7 @@ class Core_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		
 		//Récupération de l'authentification de l'utilisateur
 		$auth = Zend_Auth::getInstance();
+
 		if ($auth->hasIdentity()) {
 			$userAuth = $auth->getIdentity();
 		} else {
@@ -34,14 +35,11 @@ class Core_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 			$userAuth->setRoleId(Core_Model_User::GUEST);
 		}
 			
-		$roleAuth = $userAuth->getRoleid();
-		
-
         // action/resource does not exist in ACL -> 404
         if (! $acl->has($module . '::' . $controller . '::' . $action)) {
-			throw new Zend_Controller_Dispatcher_Exception('_ERR_page_not_found');
+			throw new Zend_Controller_Dispatcher_Exception('Erreur page 404');
 		} else if (! $acl->isAllowed($userAuth, $module . '::' . $controller . '::' . $action)) { // resource does exist, check ACL
-			throw new Zend_Acl_Exception($module . '::' . $controller . '::' . $action);
+			throw new Zend_Acl_Exception('Vous n\'êtes pas autorisez à cette section !!! ' . $module . '::' . $controller . '::' . $action);
 		}
 	}
 }
