@@ -1,0 +1,11 @@
+<?php 
+$this->headTitle('Accueil');
+$this->headMeta()->appendName('description', "Page d'accueil");
+?>
+<br />
+<br /><br />
+<?php if($this->articles):?>
+    <?= $this->partialLoop('article/partials/item.phtml', $this->articles);?>
+<?php else: ?>
+Aucun article !!!
+<?php endif;?>
