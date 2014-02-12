@@ -42,11 +42,10 @@ class ArticleController extends Zend_Controller_Action
             if($form->isValid($post)){
                 $data = $post;
                 unset($data['create']);
-                
                 $mapperArticle = new Core_Model_Mapper_Article();
                 $article = $mapperArticle->insert($data);
             }else{
-                echo 'Pas ok !!';
+                $this->_helper->flashMessenger('Formulaire incorrect', 'error');
             }
         }
         
@@ -92,13 +91,12 @@ class ArticleController extends Zend_Controller_Action
         $mapperArticle = new Core_Model_Mapper_Article();
         $article = $mapperArticle->find($articleId);
         
-        $session = new Zend_Session_Namespace('message');
         $acl = Zend_Registry::get('Zend_Acl');
         if($acl->isAllowed($userAuth, $article, 'delete')){
             $mapperArticle->delete($article);
-            $session->__set('value', 'Supression de l\'article réussie');
+            $this->_helper->flashMessenger('Supression de l\'article réussie', 'success');
         } else {
-            $session->__set('value', 'Echec de la supression de l\'article');
+            $this->_helper->flashMessenger('Echec de la supression de l\'article', 'error');
         }
         $this->_redirect($this->_helper->url('index','article'));
     }
